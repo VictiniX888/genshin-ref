@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/core": "^7.15.5",
+    "genshin-db": "^3.10.5",
     "next": "11.1.2",
     "react": "17.0.2",
+    "react-bootstrap": "^2.0.0-rc.0",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
