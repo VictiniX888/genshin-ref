@@ -2,12 +2,14 @@ import * as genshindb from 'genshin-db';
 
 export function getCharacterData(id: string): Character | undefined {
   const characterData = genshindb.characters(id);
+  const talentData = genshindb.talents(id);
+
   if (characterData === undefined) {
     return undefined;
   }
 
   const { stats, ...modifiedCharData } = characterData;
-  return modifiedCharData;
+  return { ...modifiedCharData, talentData };
 }
 
 export function getAllCharacterIds() {
@@ -27,4 +29,6 @@ export function getAllCharacterIds() {
   });
 }
 
-export interface Character extends Omit<genshindb.Character, 'stats'> {}
+export interface Character extends Omit<genshindb.Character, 'stats'> {
+  talentData?: genshindb.Talent;
+}

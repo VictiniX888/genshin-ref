@@ -6,6 +6,9 @@ import {
   getCharacterData,
 } from '../../lib/characters';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import TalentCardGroup from '../../components/talent-card-group';
 
 interface CharacterPageProps {
   character?: Character;
@@ -28,6 +31,10 @@ export default function CharacterPage({ character }: CharacterPageProps) {
     <Container>
       <p>{character.name}</p>
       <p>{character.description}</p>
+
+      {character.talentData && (
+        <TalentCardGroup talentData={character.talentData} />
+      )}
     </Container>
   );
 }
