@@ -39,5 +39,8 @@ export function parseFormattedTextAsHtml(text: string): string {
     (tag) => `<strong>${tag.slice(2, tag.length - 2)}</strong>`
   );
 
+  // Converts small dot into bigger dot with space for lists
+  parser.addRule(/·/g, () => '• ');
+
   return parser.render(text);
 }
