@@ -13,7 +13,7 @@ export function parseFormattedTextAsCardText(text: string): React.ReactNode {
   });
 }
 
-export function parseFormattedTextAsHtml(text: string): string {
+function parseFormattedTextAsHtml(text: string): string {
   if (text === '') {
     return text;
   }
@@ -43,4 +43,78 @@ export function parseFormattedTextAsHtml(text: string): string {
   parser.addRule(/·/g, () => '• ');
 
   return parser.render(text);
+}
+
+export function parseTalentValuesAsTableRow(
+  text: string,
+  params: {
+    [key: string]: number[];
+  }
+): React.ReactNode {
+  const [talentName, talentValues] = text.split('|');
+  if (talentName === undefined || talentValues === undefined) {
+    return undefined;
+  }
+
+  return (
+    <tr key={text}>
+      <th>{talentName}</th>
+      {Array.from({ length: 15 }, (_, i) => (
+        <td key={i}>{parseTalentValueString(talentValues, i + 1, params)}</td>
+      ))}
+    </tr>
+  );
+}
+
+function parseTalentValueString(
+  text: string,
+  level: number,
+  params: {
+    [key: string]: number[];
+  }
+): string {
+  const parser = new TextParser();
+
+  // Parses {paramX:I/P}
+  parser.addRule(/{.*?:.*?}/g, (tag) =>
+    parseTalentValue(tag.slice(1, tag.length - 1), level, params)
+  );
+
+  return parser.render(text);
+}
+
+function parseTalentValue(
+  text: string,
+  level: number,
+  params: {
+    [key: string]: number[];
+  }
+): string {
+  const [paramI, parseType] = text.split(':');
+  if (paramI === undefined || parseType === undefined) {
+    return '';
+  }
+
+  const param = params[paramI];
+  if (param === undefined) {
+    return '';
+  }
+
+  const value = param[level - 1];
+  if (value === undefined) {
+    return '';
+  }
+
+  switch (parseType) {
+    case 'I':
+      return value.toFixed(0);
+    case 'P':
+      return (value * 100).toFixed(0).concat('%');
+    case 'F1':
+      return value.toFixed(1);
+    case 'F1P':
+      return (value * 100).toFixed(1).concat('%');
+    default:
+      return value.toString();
+  }
 }

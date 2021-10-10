@@ -1,0 +1,13 @@
+.table-sticky-column tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: white;
+}
+
+.table-sticky-column thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: white;
+}
