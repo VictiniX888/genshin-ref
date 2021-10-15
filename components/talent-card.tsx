@@ -13,6 +13,9 @@ interface TalentCardProps {
 }
 
 export default function TalentCard({ type, talent }: TalentCardProps) {
+  const talentParamLength = Object.values(talent.attributes.parameters)[0]
+    .length;
+
   return (
     <Card>
       <Card.Header>{type}</Card.Header>
@@ -23,14 +26,17 @@ export default function TalentCard({ type, talent }: TalentCardProps) {
         {talent.description && <Card.Text>{talent.description}</Card.Text>}
 
         <Table responsive striped className={utilStyles['table-sticky-column']}>
-          <thead>
-            <tr>
-              <th></th>
-              {Array.from({ length: 15 }, (_, i) => (
-                <th key={i}>{i + 1}</th>
-              ))}
-            </tr>
-          </thead>
+          {talentParamLength > 1 && (
+            <thead>
+              <tr>
+                <th></th>
+                {Array.from({ length: talentParamLength }, (_, i) => (
+                  <th key={i}>{i + 1}</th>
+                ))}
+              </tr>
+            </thead>
+          )}
+
           <tbody>
             {talent.attributes.labels.map((label) =>
               parseTalentValuesAsTableRow(label, talent.attributes.parameters)

@@ -22,6 +22,12 @@ export default function TalentCardGroup({ talentData }: TalentCardGroupProps) {
         <Col xs={12}>
           <TalentCard type='Elemental Burst' talent={talentData.combat3} />
         </Col>
+
+        {talentData.combatsp && (
+          <Col xs={12}>
+            <TalentCard type='Alternate Sprint' talent={talentData.combatsp} />
+          </Col>
+        )}
       </Row>
     </>
   );

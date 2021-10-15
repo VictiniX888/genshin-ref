@@ -56,10 +56,12 @@ export function parseTalentValuesAsTableRow(
     return undefined;
   }
 
+  const talentParamLength = Object.values(params)[0].length;
+
   return (
     <tr key={text}>
       <th>{talentName}</th>
-      {Array.from({ length: 15 }, (_, i) => (
+      {Array.from({ length: talentParamLength }, (_, i) => (
         <td key={i}>{parseTalentValueString(talentValues, i + 1, params)}</td>
       ))}
     </tr>
@@ -114,6 +116,8 @@ function parseTalentValue(
       return value.toFixed(1);
     case 'F1P':
       return (value * 100).toFixed(1).concat('%');
+    case 'F2P':
+      return (value * 100).toFixed(2).concat('%');
     default:
       return value.toString();
   }
