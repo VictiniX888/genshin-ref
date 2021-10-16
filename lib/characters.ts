@@ -1,8 +1,17 @@
 import * as genshindb from 'genshin-db';
 
 export function getCharacterData(id: string): Character | undefined {
-  const characterData = genshindb.characters(id);
   const talentData = genshindb.talents(id);
+
+  let characterData: genshindb.Character | undefined;
+  if (id.startsWith('traveler')) {
+    characterData = genshindb.characters('aether');
+    if (characterData !== undefined) {
+      characterData.name = talentData?.name ?? characterData.name;
+    }
+  } else {
+    characterData = genshindb.characters(id);
+  }
 
   if (characterData === undefined) {
     return undefined;
@@ -23,7 +32,7 @@ export function getAllCharacterIds() {
 }
 
 export function getCharacterList() {
-  const characterNames = genshindb.characters('names', {
+  const characterNames = genshindb.talents('names', {
     matchCategories: true,
   });
 
