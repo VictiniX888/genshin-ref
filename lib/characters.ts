@@ -13,18 +13,25 @@ export function getCharacterData(id: string): Character | undefined {
 }
 
 export function getAllCharacterIds() {
+  return getCharacterList().map(({ id }) => {
+    return {
+      params: {
+        characterId: id,
+      },
+    };
+  });
+}
+
+export function getCharacterList() {
   const characterNames = genshindb.characters('names', {
     matchCategories: true,
   });
-  const characterIds = characterNames.map((name) =>
-    name.replace(/\W/g, '').toLowerCase()
-  );
 
-  return characterIds.map((characterId) => {
+  return characterNames.map((name) => {
+    const id = name.replace(/\W/g, '').toLowerCase();
     return {
-      params: {
-        characterId,
-      },
+      name,
+      id,
     };
   });
 }
